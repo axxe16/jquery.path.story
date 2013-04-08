@@ -1,0 +1,114 @@
+/* INIZIO RESET CSS */
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after, q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+/* fine RESET CSS */
+
+body {
+	background: url(../images/background/grey_wash_wall.png) repeat center #333;
+}
+#dataPath {
+	margin: 0 20%;
+}
+#dataPath section {
+	padding-top: 12%;
+	padding-left: 10%;
+	padding-right: 10%;
+	padding-bottom: 10%;
+	border: 1px solid #ccc;
+	background-color: #fff;
+	margin: 4% 0;
+	-webkit-box-shadow: 0px 0px 8px rgba(50, 50, 50, 0.85);
+	-moz-box-shadow: 0px 0px 8px rgba(50, 50, 50, 0.85);
+	box-shadow: 0px 0px 8px rgba(50, 50, 50, 0.85);
+	position: relative;
+}
+/* TYPO */
+#dataPath {
+	font-family: Helvetica, sans-serif;
+	font-size: 0.95em;
+	line-height: 1.25;
+}
+/* FINE TYPO */
+
+
+
+/* IMPAGINAZIONE INFO */
+.info {
+	position: absolute;
+	color: #777
+}
+.titolo {
+	top: 20px;
+	left: 0;
+	width: 100%;
+	text-align: center;
+}
+.titoloCap {
+	top: 45px;
+	left: 0;
+	width: 100%;
+	text-align: center;
+}
+.capNumber {
+	bottom: 1%;
+	right: 3%;
+}
+.autore {
+}
+/* INTERFACCIA */
+.nav {
+	position: fixed;
+	right: 10%;
+	background: url(../images/interface/topBottom.png) no-repeat center;
+	width: 64px;
+	height: 64px;
+	-moz-opacity: 0.80;
+	opacity: 0.80;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha"(Opacity=80);
+	cursor:pointer;
+}
+.nav:hover {
+	-moz-opacity: 1;
+	opacity: 1;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha"(Opacity=100);
+}
+#prevNav {
+	top: 10px;
+	background-position: top center;
+}
+#postNav {
+	top: 90px;
+	background-position: bottom center;
+}
