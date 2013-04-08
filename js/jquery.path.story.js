@@ -2,7 +2,7 @@
  * 
  * jQuery Path Story
  * 
- * Version 0.1 (08-04-2013)
+ * Version 0.2 (08-04-2013)
  * semanticstone.net
  *
  * Licensed under GPL license:
@@ -21,16 +21,18 @@
        
 // Default
   var defaults = {
-		book: '#dataPath',
 		debug: false
     };
             
   // # Utilizzo la funzione $.extend per "mergiare" gli oggetti
   options = $.extend( defaults, options );
   
-	pageInfo(defaults.book);
-	linearNav(defaults.book); 
-  
+  return this.each(function() {
+	    var book = $(this);
+		console.dir(book)
+		pageInfo(book);
+		linearNav(book); 
+    });  
   
   //STAMPO IN OGNI PAGINA IL TITOLO DEL LIBRO, IL TITOLO DEL CAPITOLO IL NUMERO DEL CAPITOLO CORRENTE E L'AUTORE
 function pageInfo(book)
