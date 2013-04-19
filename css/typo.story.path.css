@@ -1,0 +1,107 @@
+/* FONTS */
+@font-face {
+    font-family: 'edelsansultralight';
+    src: url('../fonts/edelsans_ultralight-webfont.eot');
+    src: url('../fonts/edelsans_ultralight-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/edelsans_ultralight-webfont.woff') format('woff'),
+         url('../fonts/edelsans_ultralight-webfont.ttf') format('truetype'),
+         url('../fonts/edelsans_ultralight-webfont.svg#edelsansultralight') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'edelsansregular';
+    src: url('../fonts/edelsans_regular-webfont.eot');
+    src: url('../fonts/edelsans_regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/edelsans_regular-webfont.woff') format('woff'),
+         url('../fonts/edelsans_regular-webfont.ttf') format('truetype'),
+         url('../fonts/edelsans_regular-webfont.svg#edelsansregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+@font-face {
+    font-family: 'fontin_sans_rgregular';
+    src: url('../fonts/fontin_sans_r_45b-webfont.eot');
+    src: url('../fonts/fontin_sans_r_45b-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/fontin_sans_r_45b-webfont.woff') format('woff'),
+         url('../fonts/fontin_sans_r_45b-webfont.ttf') format('truetype'),
+         url('../fonts/fontin_sans_r_45b-webfont.svg#fontin_sans_rgregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'fontin_sans_rgbold_italic';
+    src: url('../fonts/fontin_sans_bi_45b-webfont.eot');
+    src: url('../fonts/fontin_sans_bi_45b-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/fontin_sans_bi_45b-webfont.woff') format('woff'),
+         url('../fonts/fontin_sans_bi_45b-webfont.ttf') format('truetype'),
+         url('../fonts/fontin_sans_bi_45b-webfont.svg#fontin_sans_rgbold_italic') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'fontin_sans_rgbold';
+    src: url('../fonts/fontin_sans_b_45b-webfont.eot');
+    src: url('../fonts/fontin_sans_b_45b-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/fontin_sans_b_45b-webfont.woff') format('woff'),
+         url('../fonts/fontin_sans_b_45b-webfont.ttf') format('truetype'),
+         url('../fonts/fontin_sans_b_45b-webfont.svg#fontin_sans_rgbold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'fontin_sans_rgitalic';
+    src: url('../fonts/fontin_sans_i_45b-webfont.eot');
+    src: url('../fonts/fontin_sans_i_45b-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/fontin_sans_i_45b-webfont.woff') format('woff'),
+         url('../fonts/fontin_sans_i_45b-webfont.ttf') format('truetype'),
+         url('../fonts/fontin_sans_i_45b-webfont.svg#fontin_sans_rgitalic') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'fontin_sans_scsmall_caps';
+    src: url('../fonts/fontin_sans_sc_45b-webfont.eot');
+    src: url('../fonts/fontin_sans_sc_45b-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/fontin_sans_sc_45b-webfont.woff') format('woff'),
+         url('../fonts/fontin_sans_sc_45b-webfont.ttf') format('truetype'),
+         url('../fonts/fontin_sans_sc_45b-webfont.svg#fontin_sans_scsmall_caps') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+/* STILI INERENTI GLI ASPETTI TIPOGRAFICI */
+#dataPath {
+	font-family: edelsansregular , sans-serif;
+	font-size: 0.95em;
+	line-height: 1.25em;
+}
