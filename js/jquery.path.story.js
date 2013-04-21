@@ -2,7 +2,7 @@
  * 
  * jQuery Path Story
  * 
- * Version 0.4 (08-04-2013)
+ * Version 0.2 (08-04-2013)
  * semanticstone.net
  *
  * Licensed under GPL license:
@@ -74,7 +74,10 @@ function config(book) {
 //gestione dimensioni del testo
 plus(paragraph,1,2,3,'.dSelection .plus','fontSize');
 less(paragraph,1,0.7,3,'.dSelection .less','fontSize');
-
+//gestione dimensioni interlinea
+plus(paragraph,1.5,2.5,3,'.iSelection .plus','lineHeight');
+less(paragraph,1.5,1,3,'.iSelection .less','lineHeight');
+//gestione margini
 plusMargin(pages,3,8,5,'.mSelection .plus');
 lessMargin(pages,3,1,3,'.mSelection .less');
 	
@@ -167,13 +170,7 @@ function less(target,start,end,step,button,style) {
 //funzioni di controllo formattazione
 //dimensioni margini
 function plusMargin(target,start,end,step,button) { 
-    //target -> elemento su cui agire
-    //start  -> valore di default
-    //end    -> valore massimo
-    //step   -> n° di step
-    //button -> elemento attuatore
     var stepValue = (end-start)/step;
-	console.log('stepValue=' + stepValue);
     $(button).click(function() {
         var size= $(target).css('marginLeft');
         size = parseFloat(pxToEm(size)); 
@@ -185,21 +182,13 @@ function plusMargin(target,start,end,step,button) {
 }
 
 //gestione margini
-//funzioni di controllo formattazione
 //dimensioni margini
 function lessMargin(target,start,end,step,button) { 
-    //target -> elemento su cui agire
-    //start  -> valore di default
-    //end    -> valore massimo
-    //step   -> n° di step
-    //button -> elemento attuatore
-	console.log('start=' + start);
     var stepValue = (start-end)/step;
-	console.log('start=' + stepValue);
     $(button).click(function() {
         var size= $(target).css('marginLeft');
         size = parseFloat(pxToEm(size)); 
-        if (size < end) {
+        if (size > end) {
             size = size - stepValue;
             $(target).css({marginLeft : size + 'em', marginRight : size + 'em'});
         }
@@ -217,7 +206,61 @@ function pxToEm(value) {
 	scopeTest.remove();
 	return (value / scopeVal).toFixed(8);
 }  
+
+//gestione cookie
   
+function getCookie(w){
+	cName = "";
+	pCOOKIES = new Array();
+	pCOOKIES = document.cookie.split('; ');
+	for(bb = 0; bb < pCOOKIES.length; bb++){
+		NmeVal  = new Array();
+		NmeVal  = pCOOKIES[bb].split('=');
+		if(NmeVal[0] == w){
+			cName = unescape(NmeVal[1]);
+		}
+	}
+	return cName;
+}
+
+function printCookies(w){
+	cStr = "";
+	pCOOKIES = new Array();
+	pCOOKIES = document.cookie.split('; ');
+	for(bb = 0; bb < pCOOKIES.length; bb++){
+		NmeVal  = new Array();
+		NmeVal  = pCOOKIES[bb].split('=');
+		if(NmeVal[0]){
+			cStr += NmeVal[0] + '=' + unescape(NmeVal[1]) + '; ';
+		}
+	}
+	return cStr;
+}
+
+function setCookie(name, value, expires, path, domain, secure){
+	document.cookie = name + "=" + escape(value) + "; ";
+	
+	if(expires){
+		expires = setExpiration(expires);
+		document.cookie += "expires=" + expires + "; ";
+	}
+	if(path){
+		document.cookie += "path=" + path + "; ";
+	}
+	if(domain){
+		document.cookie += "domain=" + domain + "; ";
+	}
+	if(secure){
+		document.cookie += "secure; ";
+	}
+}
+
+function setExpiration(cookieLife){
+    var today = new Date();
+    var expr = new Date(today.getTime() + cookieLife * 24 * 60 * 60 * 1000);
+    return  expr.toGMTString();
+}
+
   
 }  
   
