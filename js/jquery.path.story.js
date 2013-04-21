@@ -2,7 +2,7 @@
  * 
  * jQuery Path Story
  * 
- * Version 0.3 (19-04-2013)
+ * Version 0.4 (08-04-2013)
  * semanticstone.net
  *
  * Licensed under GPL license:
@@ -30,7 +30,6 @@
   
   return this.each(function() {
 	    var book = $(this);
-		console.dir(book)
 		pageInfo(book);
 		linearNav(book); 
 		if(config)
@@ -65,15 +64,19 @@ function pageInfo(book)
 
 function config(book) {
 	var pages = $(book).children('section');
+	pages.wrapInner('<div class="innerSection">');
+	pages = pages.children('div');
 	var paragraph = $(pages).children('p');
 	//inserisco il pulsante config
 	$(book).prepend('<div class="nav" id="configBookButton"></div>');
 	//inserisco il box di configurazione
-	$('body').prepend('<div class="wrapConfigBook"><div id="configBook"><div class="wrapInnerConfigBook"><div class="row dSelection"><span>Dimensione Testo</span><i class="less"></i><i class="plus"></i></div><!--<div class="row mSelection"><span>Margini</span><i class="less"></i><i class="plus"></i></div><div class="row iSelection"><span>Interlinea</span><i class="less"></i><i class="plus"></i></div>--></div></div></div>');
+	$('body').prepend('<div class="wrapConfigBook"><div id="configBook"><div class="wrapInnerConfigBook"><div class="row dSelection"><span>Dimensione Testo</span><i class="less"></i><i class="plus"></i></div><div class="row mSelection"><span>Margini</span><i class="less"></i><i class="plus"></i></div><div class="row iSelection"><span>Interlinea</span><i class="less"></i><i class="plus"></i></div></div></div></div>');
 //gestione dimensioni del testo
-plus(paragraph,16,23,7,'.dSelection .plus','fontSize');
-less(paragraph,16,10,6,'.dSelection .less','fontSize');
+plus(paragraph,1,2,3,'.dSelection .plus','fontSize');
+less(paragraph,1,0.7,3,'.dSelection .less','fontSize');
 
+plusMargin(pages,3,8,5,'.mSelection .plus');
+lessMargin(pages,3,1,3,'.mSelection .less');
 	
 	//ricavo l'altezza del box di configurazione
 	var heightBox = '-' + $(".wrapConfigBook").height();
@@ -129,19 +132,20 @@ function linearNav(book) {
   
 
 //funzioni di controllo formattazione
+//dimensioni carattere
 function plus(target,start,end,step,button,style) { 
     //target -> elemento su cui agire
     //start  -> valore di default
     //end    -> valore massimo
     //step   -> n° di step
     //button -> elemento attuatore
-    var stepValue = Math.floor((end-start)/step);
+    var stepValue = (end-start)/step;
     $(button).click(function() {
         var size = $(target).css(style);
-        size = size.substring(0, size.length - 2);
-        if (parseInt(size) < end) {
-            size = parseFloat(size) + parseInt(stepValue);
-            $(target).css(style,size);
+        size = parseFloat(pxToEm(size)); 
+        if (size < end) {
+            size = size + stepValue;
+            $(target).css(style,size + 'em');
         }
     }) 
 }
@@ -150,20 +154,73 @@ function less(target,start,end,step,button,style) {
     var stepValue = Math.floor((start-end)/step); 
     $(button).click(function() {
         var size = $(target).css(style);
-            size = size.substring(0, size.length - 2);        
-            if (parseInt(size) > end) {
-                size = parseFloat(size) - parseInt(stepValue);
-                $(target).css(style,size);
+			size = parseFloat(pxToEm(size)); 
+            if (size > end) {
+                size = size - stepValue;
+                $(target).css(style,size + 'em');
             }
     })
 }
 
 
+//gestione margini
+//funzioni di controllo formattazione
+//dimensioni margini
+function plusMargin(target,start,end,step,button) { 
+    //target -> elemento su cui agire
+    //start  -> valore di default
+    //end    -> valore massimo
+    //step   -> n° di step
+    //button -> elemento attuatore
+    var stepValue = (end-start)/step;
+	console.log('stepValue=' + stepValue);
+    $(button).click(function() {
+        var size= $(target).css('marginLeft');
+        size = parseFloat(pxToEm(size)); 
+        if (size < end) {
+            size = size + stepValue;
+            $(target).css({marginLeft : size + 'em', marginRight : size + 'em'});
+        }
+    }) 
+}
+
+//gestione margini
+//funzioni di controllo formattazione
+//dimensioni margini
+function lessMargin(target,start,end,step,button) { 
+    //target -> elemento su cui agire
+    //start  -> valore di default
+    //end    -> valore massimo
+    //step   -> n° di step
+    //button -> elemento attuatore
+	console.log('start=' + start);
+    var stepValue = (start-end)/step;
+	console.log('start=' + stepValue);
+    $(button).click(function() {
+        var size= $(target).css('marginLeft');
+        size = parseFloat(pxToEm(size)); 
+        if (size < end) {
+            size = size - stepValue;
+            $(target).css({marginLeft : size + 'em', marginRight : size + 'em'});
+        }
+    }) 
+}
+
+
+
+//conversione pxtoEm
+function pxToEm(value) {
+	value = value.substring(0, value.length - 2);
+	value = parseInt(value)
+	var scopeTest = $('<div style="display: none; font-size: 1em; margin: 0; padding:0; height: auto; line-height: 1; border:0;">&nbsp;</div>').appendTo('body'),
+	scopeVal = scopeTest.height();
+	scopeTest.remove();
+	return (value / scopeVal).toFixed(8);
+}  
   
   
+}  
   
-  }  
-  
-  });
+});
     
 }) ( jQuery );

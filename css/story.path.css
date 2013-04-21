@@ -41,24 +41,39 @@ body {
 #dataPath {
 	margin: 0 20%;
 }
+
+/* pot per disp. mobili */
+/* == iPad/iPhone [portrait + landscape] == */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) {
+#dataPath {
+	margin: 0 10%;
+}
+.nav {right:-2%;
+}
+
+
 #dataPath section {
-	padding-top: 12%;
-	padding-left: 10%;
-	padding-right: 10%;
-	padding-bottom: 10%;
+	padding-top: 6em;
+	padding-bottom: 6em;
 	border: 1px solid #ccc;
 	background-color: #fff;
-	margin: 4% 0;
+	margin:3em 0;
 	-webkit-box-shadow: 0px 0px 8px rgba(50, 50, 50, 0.85);
 	-moz-box-shadow: 0px 0px 8px rgba(50, 50, 50, 0.85);
 	box-shadow: 0px 0px 8px rgba(50, 50, 50, 0.85);
 	position: relative;
 }
+#dataPath section .innerSection {
+	margin-left: 3em;
+	margin-right: 3em;
+	}
 /* TYPO */
 #dataPath {
 	font-family: edelsansregular,fontin_sans_rgregular, sans-serif;
 	font-size: 0.95em;
-	line-height: 1.25;
+	line-height: 1.5em;
 }
 /* FINE TYPO */
 
@@ -191,3 +206,4 @@ body {
 #configBook .row i.less { background:url(../images/interface/round_plus_less.png) no-repeat bottom center;}
 
 /* fine pannello di configurazione */
+
