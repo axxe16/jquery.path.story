@@ -2,7 +2,7 @@
  * 
  * jQuery Path Story
  * 
- * Version 0.2 (08-04-2013)
+ * Version 0.5 (22-05-2013)
  * semanticstone.net
  *
  * Licensed under GPL license:
@@ -22,7 +22,8 @@
 // Default
   var defaults = {
 		debug: false,
-		config: true
+		config: true,
+		cookie: true
     };
             
   // # Utilizzo la funzione $.extend per "mergiare" gli oggetti
@@ -33,7 +34,7 @@
 		pageInfo(book);
 		linearNav(book); 
 		if(config)
-			config(book)
+			config(book);
     });  
   
   //STAMPO IN OGNI PAGINA IL TITOLO DEL LIBRO, IL TITOLO DEL CAPITOLO IL NUMERO DEL CAPITOLO CORRENTE E L'AUTORE
@@ -67,6 +68,18 @@ function config(book) {
 	pages.wrapInner('<div class="innerSection">');
 	pages = pages.children('div');
 	var paragraph = $(pages).children('p');
+	
+	//ripristino le impostazioni iniziali verificando i cookie
+	margin = getCookie('margin');
+	fontSize = getCookie('fontSize'); 
+	lineHeight = getCookie('lineHeight');
+	//se i cookie contengono impostazioni precedenti allora il documento viene formattato di conseguenza
+	if (margin !='noValue') 	$(pages).css({marginLeft : margin + 'em', marginRight : margin + 'em'});
+	if (fontSize !='noValue') 	$(paragraph).css('fontSize',fontSize + 'em');
+	if (lineHeight !='noValue') $(pages).css('lineHeight',lineHeight + 'em');
+	
+	
+	
 	//inserisco il pulsante config
 	$(book).prepend('<div class="nav" id="configBookButton"></div>');
 	//inserisco il box di configurazione
@@ -75,8 +88,8 @@ function config(book) {
 plus(paragraph,1,2,3,'.dSelection .plus','fontSize');
 less(paragraph,1,0.7,3,'.dSelection .less','fontSize');
 //gestione dimensioni interlinea
-plus(paragraph,1.5,2.5,3,'.iSelection .plus','lineHeight');
-less(paragraph,1.5,1,3,'.iSelection .less','lineHeight');
+plus(pages,1.5,2.5,3,'.iSelection .plus','lineHeight');
+less(pages,1.5,1,3,'.iSelection .less','lineHeight');
 //gestione margini
 plusMargin(pages,3,8,5,'.mSelection .plus');
 lessMargin(pages,3,1,3,'.mSelection .less');
@@ -135,7 +148,7 @@ function linearNav(book) {
   
 
 //funzioni di controllo formattazione
-//dimensioni carattere
+//dimensioni carattere e interlinea
 function plus(target,start,end,step,button,style) { 
     //target -> elemento su cui agire
     //start  -> valore di default
@@ -145,21 +158,23 @@ function plus(target,start,end,step,button,style) {
     var stepValue = (end-start)/step;
     $(button).click(function() {
         var size = $(target).css(style);
-        size = parseFloat(pxToEm(size)); 
+		size = parseFloat(pxToEm(size,'section',false)); 
         if (size < end) {
             size = size + stepValue;
+            setCookie(style, size, 365, '/');
             $(target).css(style,size + 'em');
         }
     }) 
 }
 
 function less(target,start,end,step,button,style) {
-    var stepValue = Math.floor((start-end)/step); 
+    var stepValue = (start-end)/step; 
     $(button).click(function() {
         var size = $(target).css(style);
-			size = parseFloat(pxToEm(size)); 
+			size = parseFloat(pxToEm(size,'section',false));
             if (size > end) {
                 size = size - stepValue;
+                setCookie(style, size, 365, '/');
                 $(target).css(style,size + 'em');
             }
     })
@@ -173,9 +188,10 @@ function plusMargin(target,start,end,step,button) {
     var stepValue = (end-start)/step;
     $(button).click(function() {
         var size= $(target).css('marginLeft');
-        size = parseFloat(pxToEm(size)); 
+		size = parseFloat(pxToEm(size,'section',false));
         if (size < end) {
             size = size + stepValue;
+            setCookie('margin', size, 365, '/');
             $(target).css({marginLeft : size + 'em', marginRight : size + 'em'});
         }
     }) 
@@ -187,30 +203,57 @@ function lessMargin(target,start,end,step,button) {
     var stepValue = (start-end)/step;
     $(button).click(function() {
         var size= $(target).css('marginLeft');
-        size = parseFloat(pxToEm(size)); 
+			size = parseFloat(pxToEm(size,'section',false));
         if (size > end) {
             size = size - stepValue;
+            setCookie('margin', size, 365, '/');
             $(target).css({marginLeft : size + 'em', marginRight : size + 'em'});
         }
     }) 
 }
 
 
+function pxToEm(value,scope,reverse) {
+		 var pxVal = (value === '') ? 0 : parseFloat(value);
+            var scopeVal;
+            var getWindowWidth = function(){
+                var de = document.documentElement;
+                return self.innerWidth || (de && de.clientWidth) || document.body.clientWidth;
+            };  
+            
+            /* When a percentage-based font-size is set on the body, IE returns that percent of the window width as the font-size. 
+                For example, if the body font-size is 62.5% and the window width is 1000px, IE will return 625px as the font-size.      
+                When this happens, we calculate the correct body font-size (%) and multiply it by 16 (the standard browser font size) 
+                to get an accurate em value. */
 
-//conversione pxtoEm
-function pxToEm(value) {
-	value = value.substring(0, value.length - 2);
-	value = parseInt(value)
-	var scopeTest = $('<div style="display: none; font-size: 1em; margin: 0; padding:0; height: auto; line-height: 1; border:0;">&nbsp;</div>').appendTo('body'),
-	scopeVal = scopeTest.height();
-	scopeTest.remove();
-	return (value / scopeVal).toFixed(8);
-}  
+
+			jQuery.browser = {};
+			jQuery.browser.mozilla = /mozilla/.test(navigator.userAgent.toLowerCase()) && !/webkit/.test(navigator.userAgent.toLowerCase());
+			jQuery.browser.webkit = /webkit/.test(navigator.userAgent.toLowerCase());
+			jQuery.browser.opera = /opera/.test(navigator.userAgent.toLowerCase());
+			jQuery.browser.msie = /msie/.test(navigator.userAgent.toLowerCase());
+
+
+                        
+            if (scope == 'body' && jQuery.browser.msie && (parseFloat($('body').css('font-size')) / getWindowWidth()).toFixed(1) > 0.0) {
+                var calcFontSize = function(){          
+                    return (parseFloat($('body').css('font-size'))/getWindowWidth()).toFixed(3) * 16;
+                };
+                scopeVal = calcFontSize();
+            }
+            else { scopeVal = parseFloat(jQuery(scope).css("font-size")); }
+                    
+            var result = (reverse === true) ? (pxVal * scopeVal).toFixed(2) + 'px' : (pxVal / scopeVal).toFixed(2) + 'em';
+            return result;
+		}
+		
+
+
 
 //gestione cookie
   
 function getCookie(w){
-	cName = "";
+	cName = "noValue";
 	pCOOKIES = new Array();
 	pCOOKIES = document.cookie.split('; ');
 	for(bb = 0; bb < pCOOKIES.length; bb++){

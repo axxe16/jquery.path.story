@@ -3,6 +3,11 @@
 
 path.story è un semplice plugin che permette di impostare un lettore di libri minimale. Nella versione iniziale c'è un tema predefinito e il supporto ad alcuni parametri 'data-' e ad un pulsante per l'avanzamento della lettura. Nelle prossime versioni verranno introdotte tutte le funzionalità tipiche degli eBook reader oltre ad alcune funzionalità interattive.
 
+## Versione 0.5:
+- aggiornato lo script di conversione pxtoem
+- fix pannello di configurazione
+- salvataggio impostazioni pannello di configurazione via cookie
+
 ## Versione 0.4:
 - ottimizzazione base per iPad via media query
 - upgrade pannello di configurazione (ora è possibile cambiare interlinea, margine e dimensione del font)
