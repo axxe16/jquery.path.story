@@ -3,6 +3,11 @@
 
 path.story è un semplice plugin che permette di impostare un lettore di libri minimale. Nella versione iniziale c'è un tema predefinito e il supporto ad alcuni parametri 'data-' e ad un pulsante per l'avanzamento della lettura. Nelle prossime versioni verranno introdotte tutte le funzionalità tipiche degli eBook reader oltre ad alcune funzionalità interattive.
 
+## Versione 0.6:
+- implementata la copertina e l'indice creato automaticamente
+- aggiunto il pulsante che riporta all'indice del libro
+- implementata la percentuale di completamento del libro
+
 ## Versione 0.5:
 - aggiornato lo script di conversione pxtoem
 - fix pannello di configurazione
@@ -22,6 +27,11 @@ path.story è un semplice plugin che permette di impostare un lettore di libri m
 =================
 
 path.story is a simple plugin that allows you to set a minimal book reader. In the initial release there is a default theme and support to certain parameters 'data-' and a button for the advancement of reading. Future versions will be introduced all the functionality of the eBook reader as well as some interactive features.
+
+# # Version 0.6:
+- Implemented the cover and the index created automatically
+- Added the button labeled with the index of the book
+- Implemented the percentage of completion of the book
 
 ## Version 0.5:
 - updated the conversion script pxtoem
