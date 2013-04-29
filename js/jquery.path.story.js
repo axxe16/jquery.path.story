@@ -2,7 +2,7 @@
  * 
  * jQuery Path Story
  * 
- * Version 0.6 (23-05-2013)
+ * Version 0.7 (29-04-2013)
  * semanticstone.net
  *
  * Licensed under GPL license:
@@ -35,11 +35,11 @@
 		pageInfo(book);
 		linearNav(book); 
 		logBox(book);
-		if(options.config)
+		if(options.config) {
 			config(book,options.cookie);
-		if(options.config != '')
-			setCover(book,options.coverPath);
-		
+			var verCover = rememberPos(book,options.cookie,false);
+			if (verCover != 'noCover') setCover(book,options.coverPath);
+		}
     });  
   
   //STAMPO IN OGNI PAGINA IL TITOLO DEL LIBRO, IL TITOLO DEL CAPITOLO IL NUMERO DEL CAPITOLO CORRENTE E L'AUTORE
@@ -70,6 +70,19 @@ function pageInfo(book)
 	}); 
 }
 
+function rememberPos(book,cookie,resetV) {
+	var posReference = getCookie('posReference');
+	if (posReference !='noValue' && !resetV) 	{
+		$('html, body').animate({
+				scrollTop: posReference
+			}, 300);
+		return 'noCover';
+	}
+	
+	
+}
+
+
 function config(book,cookie) {
 	var pages = $(book).children('section');
 	pages.wrapInner('<div class="innerSection">');
@@ -78,9 +91,9 @@ function config(book,cookie) {
 	
 	
 	//ripristino le impostazioni iniziali verificando i cookie
-	margin = getCookie('margin');
-	fontSize = getCookie('fontSize'); 
-	lineHeight = getCookie('lineHeight');
+	var margin = getCookie('margin');
+	var fontSize = getCookie('fontSize'); 
+	var lineHeight = getCookie('lineHeight');
 	//se i cookie contengono impostazioni precedenti allora il documento viene formattato di conseguenza
 	if (margin !='noValue') 	$(pages).css({marginLeft : margin + 'em', marginRight : margin + 'em'});
 	if (fontSize !='noValue') 	$(paragraph).css('fontSize',fontSize + 'em');
@@ -104,10 +117,22 @@ function config(book,cookie) {
 	var progressPercent = progress(book);
 	$(window).scroll(function() {
 		var progressPercent = progress(book);
-		$('#progressPrercent span').text(progressPercent + '%');
+		$('#progressPrercent span').text(Math.floor(progressPercent) + '%');
+
+		// mi accorgo quando l'utente smette di scrollare
+		clearTimeout($.data(this, 'timer'));
+  		$.data(this, 'timer', setTimeout(function() {
+			posReference = $('#ref').offset().top;
+     		if(options.cookie && posReference > 1) 
+				setCookie('posReference', posReference, 365, '/');
+  		}, 250));
+  		
 	})
 	//inserisco il pulsante richiamo indice
 	$(book).prepend('<div class="nav" id="progressPrercent"><span>' + progressPercent +'%</span></div>');
+	
+	
+	
 	
 	//inserisco il box di configurazione
 	$('body').prepend('<div class="wrapConfigBook"><div id="configBook"><div class="wrapInnerConfigBook"><div class="row dSelection"><span>Dimensione Testo</span><i class="less"></i><i class="plus"></i></div><div class="row mSelection"><span>Margini</span><i class="less"></i><i class="plus"></i></div><div class="row iSelection"><span>Interlinea</span><i class="less"></i><i class="plus"></i></div></div></div></div>');
@@ -135,6 +160,17 @@ lessMargin(pages,3,1,3,'.mSelection .less');
 			$(this).addClass('active');
 		}
 	});
+$("#progressPrercent").click(function() {
+		alert('Posizione corrente resettata! Torna all\'inizio!');
+		$('html, body').animate({
+				scrollTop: 0
+			}, 600);
+			rememberPos(book,true,true);
+			setCookie('posReference', 'noValue', 365, '/');
+	});	
+	
+	
+	
 }
 
 function linearNav(book) {
@@ -150,12 +186,12 @@ function linearNav(book) {
 	$(window).resize(function() {
 		viewportHeight = $(window).height();
 		if (defaults.debug)
-			console.log(viewportHeight );
+			console.log(viewportHeight);
 	});
 	$(window).scroll(function() {
 		currentPosition = $('#prevNav').offset().top;
 		if (defaults.debug)
-			console.log(currentPosition );
+			console.log(currentPosition);
 	});	
 			
 	
@@ -358,7 +394,7 @@ function setCover(book,coverPath) {
 				top: 0
 		})
 	}
-	$(window).scroll(function() {
+	$(window).resize(function() {
 		var viewportHeight = $(window).height(); //altezza finestra
 		var coverHeight = $('#cover').height(); //altezza cover
 		if (viewportHeight <= coverHeight) {
@@ -379,23 +415,23 @@ function setCover(book,coverPath) {
 		}
 	});	
 	
-
+//flip della cover
 $('#cover').click(function() {
 	$(this).addClass('flip');
     })
-
+//visualizzo il capitolo corretto
 $('#indice').click(function() {
     $(this).fadeOut(2000).hide()
 	$(book).fadeIn(1000);
 })
-
+//visualizza indice
 $('#indexButton').click(function() {
     $(book).fadeOut(2000).hide()
 	$('#indice').fadeIn(1000);
 })
 
 }
-
+//genero l'indice a partire dai data-title di ogni section
 function getIndex(book) {
 	var pages = $(book).children('section');
 	var indice = '<ul class="listaIndice">';
@@ -415,7 +451,7 @@ function logBox(book) {
 function progress(book) {
 	var heightBook = $(book).height();
 	var posReference = $('#ref').offset().top;
-	var progressPercent = Math.floor((posReference/heightBook)*100);
+	var progressPercent = (posReference/heightBook)*100;	
 	return progressPercent;
 	}
   }
